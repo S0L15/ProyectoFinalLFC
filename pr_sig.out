@@ -1,0 +1,38 @@
+5
+5
+Pr(S) = {a, b}
+Pr(C) = {a, b}
+Pr(D) = {a, b}
+Pr(A) = {a}
+Pr(B) = {b}
+Sig(S) = {$}
+Sig(C) = {}
+Sig(D) = {}
+Sig(A) = {}
+Sig(B) = {}
+5
+Pr(E) = {(, id}
+Pr(A) = {+, epsilon}
+Pr(T) = {(, id}
+Pr(B) = {*, epsilon}
+Pr(F) = {(, id}
+Sig(E) = {$}
+Sig(A) = {}
+Sig(T) = {}
+Sig(B) = {}
+Sig(F) = {}
+1
+Pr(S) = {(, a}
+Sig(S) = {$}
+2
+Pr(S) = {(, a}
+Pr(L) = {(, a}
+Sig(S) = {$}
+Sig(L) = {}
+3
+Pr(bexpr) = {b}
+Pr(bterm) = {b}
+Pr(bfactor) = {(, false, f, t, n, true}
+Sig(bexpr) = {$, or}
+Sig(bterm) = {and, $, or}
+Sig(bfactor) = {$, and, or}

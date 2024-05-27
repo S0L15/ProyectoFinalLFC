@@ -5,7 +5,7 @@ special_symbols = {'epsilon', 'id', 'or', 'not', 'and', 'true', 'false'}
 def read_input_file(filename):
     """
     Reads the input file and parses the grammar cases.
-    
+
     Args:
     filename (str): The name of the input file.
 
@@ -29,7 +29,7 @@ def read_input_file(filename):
 def extract_non_terminals_and_terminals(grammar):
     """
     Extracts non-terminals and terminals from the grammar.
-    
+
     Args:
     grammar (dict): The grammar dictionary.
 
@@ -54,7 +54,7 @@ def extract_non_terminals_and_terminals(grammar):
 def first(grammar):
     """
     Computes the FIRST sets for the given grammar.
-    
+
     Args:
     grammar (dict): The grammar dictionary.
 
@@ -103,7 +103,7 @@ def first(grammar):
                     if 'epsilon' not in firsts[non_terminal]:
                         firsts[non_terminal].add('epsilon')
                         changes = True
-    
+
     return {k: list(v) for k, v in firsts.items()}
 
 def follow(grammar: Dict[str, List[str]], firsts: Dict[str, List[str]]) -> Dict[str, List[str]]:
@@ -143,13 +143,32 @@ def follow(grammar: Dict[str, List[str]], firsts: Dict[str, List[str]]) -> Dict[
 
     return {k: list(v) for k, v in follows.items()}
 
-# Example usage
+def write_output_file(filename: str, cases: List[Dict[str, List[str]]], firsts_list: List[Dict[str, List[str]]], follows_list: List[Dict[str, List[str]]]) -> None:
+    with open(filename, 'w') as f:
+        f.write(f"{len(cases)}\n")
+        for i in range(len(cases)):
+            grammar = cases[i]
+            firsts = firsts_list[i]
+            follows = follows_list[i]
+            f.write(f"{len(grammar)}\n")
+            for non_terminal in grammar:
+                f.write(f"Pr({non_terminal}) = {{{', '.join(firsts[non_terminal])}}}\n")
+            for non_terminal in grammar:
+                f.write(f"Sig({non_terminal}) = {{{', '.join(follows[non_terminal])}}}\n")
+
+# Main code
 filename = 'glcs.in'
 cases = read_input_file(filename)
+
+firsts_list = []
+follows_list = []
+
 for idx, grammar in enumerate(cases, start=1):
     print(f"Case {idx}:")
     first_sets = first(grammar)
     follow_sets = follow(grammar, first_sets)
+    firsts_list.append(first_sets)
+    follows_list.append(follow_sets)
     print("Grammar:")
     for nt, prods in grammar.items():
         print(f"{nt} -> {' | '.join(prods)}")
@@ -160,3 +179,7 @@ for idx, grammar in enumerate(cases, start=1):
     for nt, follow_set in follow_sets.items():
         print(f"{nt}: {follow_set}")
     print("--------------------------------------------------------------------------------")
+
+# Llamada a la nueva función para escribir el archivo de salida
+output_filename = 'pr_sig.out'
+write_output_file(output_filename, cases, firsts_list, follows_list)
