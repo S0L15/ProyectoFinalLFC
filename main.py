@@ -15,9 +15,10 @@ def read_input_file(filename):
     with open(filename, 'r') as f:
         n = int(f.readline().strip())  # Number of cases
         cases = []
-        for _ in range(n):
+        for _ in range(n): # Iterate over the number of cases
             k = int(f.readline().strip())  # Number of non-terminals in this case
             grammar = {}
+            # Read and store the grammar
             for _ in range(k):
                 line = f.readline().strip()
                 non_terminal, productions = line.split(' -> ')
@@ -36,9 +37,10 @@ def extract_non_terminals_and_terminals(grammar):
     Returns:
     tuple: A set of non-terminals and a set of terminals.
     """
-    non_terminals = set(grammar.keys())
+    non_terminals = set(grammar.keys()) # Extract non terminals into a set
     terminals = set()
-    global special_symbols
+    special_symbols
+    # Extract terminals into a set
     for productions in grammar.values():
         for production in productions:
             for symbol in production:
@@ -62,7 +64,7 @@ def first(grammar):
     dict: A dictionary with non-terminals as keys and their FIRST sets as values.
     """
     non_terminals, terminals = extract_non_terminals_and_terminals(grammar)
-    firsts = {non_terminal: set() for non_terminal in grammar}
+    firsts = {non_terminal: set() for non_terminal in grammar} # Generates the initial set to store FIRST sets
 
     # Initialize FIRST sets with direct terminals
     for non_terminal in grammar:
@@ -144,6 +146,19 @@ def follow(grammar: Dict[str, List[str]], firsts: Dict[str, List[str]]) -> Dict[
     return {k: list(v) for k, v in follows.items()}
 
 def write_output_file(filename: str, cases: List[Dict[str, List[str]]], firsts_list: List[Dict[str, List[str]]], follows_list: List[Dict[str, List[str]]]) -> None:
+    """
+
+    Writes the FIRST and FOLLOW sets into a txt
+
+    Args:
+    filename: A string with the name of the output file
+    cases: A list with the stored cases
+    first_list: A list with the FIRST sets
+    follow_list: A list with the FOLLOW sets
+
+    Returns:
+    A file with the information given
+    """
     with open(filename, 'w') as f:
         f.write(f"{len(cases)}\n")
         for i in range(len(cases)):
@@ -180,6 +195,5 @@ for idx, grammar in enumerate(cases, start=1):
         print(f"{nt}: {follow_set}")
     print("--------------------------------------------------------------------------------")
 
-# Llamada a la nueva función para escribir el archivo de salida
 output_filename = 'pr_sig.out'
 write_output_file(output_filename, cases, firsts_list, follows_list)
