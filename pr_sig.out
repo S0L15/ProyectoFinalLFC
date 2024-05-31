@@ -1,38 +1,38 @@
 5
 5
-Pr(S) = {a, b}
-Pr(C) = {a, b}
-Pr(D) = {a, b}
+Pr(S) = {b, a}
+Pr(C) = {b, a}
+Pr(D) = {b, a}
 Pr(A) = {a}
 Pr(B) = {b}
-Sig(S) = {$}
-Sig(C) = {}
-Sig(D) = {}
-Sig(A) = {}
-Sig(B) = {}
+Sig(S) = {b, a, $}
+Sig(C) = {$, b, a}
+Sig(D) = {$, b, a}
+Sig(A) = {$, b, a}
+Sig(B) = {$, b, a}
 5
 Pr(E) = {(, id}
-Pr(A) = {+, epsilon}
+Pr(A) = {epsilon, +}
 Pr(T) = {(, id}
 Pr(B) = {*, epsilon}
 Pr(F) = {(, id}
-Sig(E) = {$}
-Sig(A) = {}
-Sig(T) = {}
-Sig(B) = {}
-Sig(F) = {}
+Sig(E) = {$, )}
+Sig(A) = {$}
+Sig(T) = {$, +}
+Sig(B) = {$, +}
+Sig(F) = {*, $, +}
 1
-Pr(S) = {(, a}
-Sig(S) = {$}
+Pr(S) = {a, (}
+Sig(S) = {*, $, a, +, ), (}
 2
-Pr(S) = {(, a}
+Pr(S) = {a, (}
 Pr(L) = {(, a}
-Sig(S) = {$}
-Sig(L) = {}
+Sig(S) = {$, ,, )}
+Sig(L) = {,, )}
 3
 Pr(bexpr) = {b}
 Pr(bterm) = {b}
-Pr(bfactor) = {(, false, f, t, n, true}
-Sig(bexpr) = {$, or}
-Sig(bterm) = {and, $, or}
-Sig(bfactor) = {$, and, or}
+Pr(bfactor) = {f, true, false, t, (, n}
+Sig(bexpr) = {$}
+Sig(bterm) = {}
+Sig(bfactor) = {}

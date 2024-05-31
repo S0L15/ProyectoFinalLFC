@@ -108,40 +108,45 @@ def first(grammar):
 
     return {k: list(v) for k, v in firsts.items()}
 
-def follow(grammar: Dict[str, List[str]], firsts: Dict[str, List[str]]) -> Dict[str, List[str]]:
+def follow(grammar, firsts):
     non_terminals, terminals = extract_non_terminals_and_terminals(grammar)
     follows = {non_terminal: set() for non_terminal in grammar}
     start_symbol = next(iter(grammar))
     follows[start_symbol].add('$')  # End of input symbol
+
 
     changes = True
     while changes:
         changes = False
         for non_terminal in grammar:
             for production in grammar[non_terminal]:
-                production_symbols = production.split()
-                for i, symbol in enumerate(production_symbols):
+                for i, symbol in enumerate(production):
                     if symbol in non_terminals:
                         # Check for epsilon in the FIRST sets of symbols to the right
                         j = i + 1
-                        while j < len(production_symbols):
-                            next_symbol = production_symbols[j]
+                        while j < len(production):
+                            next_symbol = production[j]
                             if next_symbol in non_terminals:
-                                follows[symbol].update(firsts[next_symbol] - {'epsilon'})
-                                if 'epsilon' not in firsts[next_symbol]:
-                                    break  # Stop if we find a non-epsilon
+                                follows[symbol].update(firsts[next_symbol])
+                                if 'epsilon' in follows[symbol]:
+                                    follows[symbol].remove('epsilon')
+                                if 'epsilon' in firsts[next_symbol]:
+                                    j += 1  # Stop if we find a non-epsilon
+                                else:
+                                    break
                             else:  # If next_symbol is a terminal
                                 follows[symbol].add(next_symbol)
                                 break
-                            j += 1
 
                         # If the loop completes (no break), it means all symbols to the right were epsilon
-                        if j == len(production_symbols):
-                            follows[symbol].update(follows[non_terminal])
+                        if j == len(production):
+                            if follows[symbol].update(follows[non_terminal]):
+                                changes = True
 
                         # Check for the FOLLOW of the non-terminal on the left-hand side
-                        if i == len(production_symbols) - 1:
-                            follows[symbol].update(follows[non_terminal])
+                        if i == len(production) - 1:
+                            if follows[symbol].update(follows[non_terminal]):
+                                changes = True
 
     return {k: list(v) for k, v in follows.items()}
 
